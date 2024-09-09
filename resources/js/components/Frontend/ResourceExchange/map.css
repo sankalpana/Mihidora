@@ -1,0 +1,17 @@
+/* CustomClusterIcon.css */
+.custom-cluster-icon {
+  width: 40px; /* Set the width of the cluster icon */
+  height: 40px; /* Set the height of the cluster icon */
+  background-image: url('cluster.png'); /* Set the path to your custom icon image */
+  background-size: cover; /* Make sure the image covers the entire icon */
+  color: white; /* Set the text color */
+  font-size: 16px; /* Customize the font size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.gm-style .gm-style-iw-c {
+  max-width: 300px !important;
+}
