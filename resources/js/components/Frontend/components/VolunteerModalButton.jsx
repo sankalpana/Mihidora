@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
-import { Box, Button, Modal, TextField } from "@mui/material";
+import { Alert, Box, Button, Modal, TextField } from "@mui/material";
 
 const style = {
     position: "absolute",
@@ -22,7 +22,30 @@ const VolunteerModalButton = (props) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [contactNumber, setContactNumber] = useState("");
-    const [loading, setLoading] = useState(false);
+
+    const [alert, setAlert] = useState(false);
+    const [alertType, setAlertType] = useState("");
+    const [alertContent, setAlertContent] = useState("");
+
+    const handleSubmit = () => {
+        axios
+            .post("/api/send-new-volunteer-notification", {
+                name,
+                email,
+                notificationEmail: props.notificationEmail,
+            })
+            .then((res) => {
+                if (res.data.status === 200) {
+                    setAlert(true);
+                    setAlertType("success");
+                    setAlertContent(res.data.message);
+                } else {
+                    setAlert(true);
+                    setAlertType("error");
+                    setAlertContent(Object.values(res.data.message)[0]);
+                }
+            });
+    };
 
     return (
         <>
@@ -53,6 +76,13 @@ const VolunteerModalButton = (props) => {
                     >
                         Volunteer Information
                     </Typography>
+                    {alert ? (
+                        <Alert className="response-alert" severity={alertType}>
+                            {alertContent}
+                        </Alert>
+                    ) : (
+                        <></>
+                    )}
                     <TextField
                         label="Name"
                         variant="standard"
@@ -109,16 +139,10 @@ const VolunteerModalButton = (props) => {
                                 backgroundColor: "black",
                             },
                         }}
+                        onClick={handleSubmit}
                     >
                         Submit
                     </Button>
-                    {loading ? (
-                        <Box sx={{ minHeight: "46px" }}>
-                            <CircularProgress color="success" />
-                        </Box>
-                    ) : (
-                        ""
-                    )}
                 </Box>
             </Modal>
         </>

@@ -276,7 +276,7 @@ function SingleOrganization(props) {
                                 link="/login"
                                 linkLabel="Join Mihidora" />
                             <VolunteerModalButton
-                                linkLabel="I want to Help / Volunteer" />
+                                linkLabel="I want to Help / Volunteer" notificationEmail={organization.email}/>
                                 
                         </Grid>
                     </Grid>
