@@ -67,7 +67,7 @@ class NotificationController extends Controller
             'phone' => $request->phone,
             'message' => $request->message,
         ];
-        $email = 'admin@mihidora.lk';
+        $email = $request->has('notificationEmail') ? $request->input('notificationEmail') : 'admin@mihidora.lk';
         Mail::to($email)->send(new NewVolunteerNotification($mailData));
         return response()->json([
             'status' => 200,
